@@ -39,3 +39,16 @@ C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\obj\Debug
 C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\obj\Debug\net8.0\Auctions_AuthService.pdb
 C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\obj\Debug\net8.0\Auctions_AuthService.genruntimeconfig.cache
 C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\obj\Debug\net8.0\ref\Auctions_AuthService.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\AWSSDK.Core.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\AWSSDK.SecurityToken.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\DnsClient.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\MongoDB.Bson.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\MongoDB.Driver.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\MongoDB.Driver.Core.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\MongoDB.Libmongocrypt.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\SharpCompress.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\Snappier.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\ZstdSharp.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\runtimes\linux\native\libmongocrypt.so
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\runtimes\osx\native\libmongocrypt.dylib
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\runtimes\win\native\mongocrypt.dll
