@@ -7,10 +7,11 @@ namespace Repositories
 {
     public interface IMongoDBRepository
     {
-        Task<LoginModel> GetLoginUser(string Username);
         Task<bool> CheckIfUserExists(string Username);
+        Task<bool> CheckIfUserExistsWithPassword(string Username, string Password);
         Task AddLoginUser(LoginModel login);
-        Task UpdateLoginUser(LoginModel login);
-        Task DeleteLoginUser(string Username);
+        Task<LoginModel> FindUser(Guid id);
+        Task UpdateUser(LoginModel login);
+        Task DeleteUser(Guid id);
     }
 }

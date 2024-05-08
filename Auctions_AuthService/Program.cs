@@ -10,6 +10,10 @@ using Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// BsonSeralizer... fortæller at hver gang den ser en Guid i alle entiteter skal den serializeres til en string. 
+BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
+
+// OBS: lig dem her op i vault, se opgave
 string mySecret = Environment.GetEnvironmentVariable("Secret") ?? "none";
 string myIssuer = Environment.GetEnvironmentVariable("Issuer") ?? "none";
 

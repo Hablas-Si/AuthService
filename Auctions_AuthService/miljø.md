@@ -3,4 +3,4 @@ export Issuer=MinAuthService
 
 export ConnectionURI=mongodb+srv://admin:admin@auctionhouse.dfo2bcd.mongodb.net/
 export DatabaseName=AuthDB
-export CollectionName=LoginUserCollection
+export CollectionName=LoginUsersCollection
