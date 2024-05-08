@@ -1,6 +1,12 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Models;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Driver;
+using Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +30,15 @@ builder.Services
     };
 });
 // Add services to the container.
+
+builder.Services.Configure<MongoDBSettings>(options =>
+{
+    options.ConnectionURI = Environment.GetEnvironmentVariable("ConnectionURI");
+    options.DatabaseName = Environment.GetEnvironmentVariable("DatabaseName");
+    options.CollectionName = Environment.GetEnvironmentVariable("CollectionName");
+});
+// tilføjer Repository til services
+builder.Services.AddSingleton<IMongoDBRepository, MongoDBLoginRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

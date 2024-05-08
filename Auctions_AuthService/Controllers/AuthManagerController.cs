@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Models;
+using Repositories;
 
 namespace Controllers
 {
@@ -16,10 +17,12 @@ namespace Controllers
     {
         private readonly ILogger<AuthManagerController> _logger;
         private readonly IConfiguration _config;
-        public AuthManagerController(ILogger<AuthManagerController> logger, IConfiguration config)
+        private readonly IMongoDBRepository _mongoDBRepository;
+        public AuthManagerController(ILogger<AuthManagerController> logger, IConfiguration config, IMongoDBRepository mongoDBRepository)
         {
             _config = config;
             _logger = logger;
+            _mongoDBRepository = mongoDBRepository;
         }
 
         private string GenerateJwtToken(string username)
