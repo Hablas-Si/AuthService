@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "y+orZNZ3vwQNG86QVH5XpY3SxxCkywvWrFbsSJyxLZXS+QtKv3EO5qTKX8es6+xgbCLwjjDVqfSu1r1t7mm5DA==",
+  "dgSpecHash": "3FDL+mZIC+zRGfHBMMNmRPzVw/5CdgOxs0L8WFowECKpuh68KXWcKBqoSY6Ky/c4yUZMkhPDL0Ej3NkMqqtj3g==",
   "success": true,
-  "projectFilePath": "c:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj",
+  "projectFilePath": "C:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Asbjørn\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Users\\Asbjørn\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",

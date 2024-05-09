@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj": {}
+    "C:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj": {}
   },
   "projects": {
-    "c:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj": {
+    "C:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj",
+        "projectUniqueName": "C:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj",
         "projectName": "Auctions_AuthService",
-        "projectPath": "c:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj",
+        "projectPath": "C:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj",
         "packagesPath": "C:\\Users\\Asbjørn\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\obj\\",
+        "outputPath": "C:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
