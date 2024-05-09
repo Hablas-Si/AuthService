@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj": {}
+    "c:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj": {
+    "c:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj",
+        "projectUniqueName": "c:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj",
         "projectName": "Auctions_AuthService",
-        "projectPath": "C:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj",
+        "projectPath": "c:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj",
         "packagesPath": "C:\\Users\\Asbjørn\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\obj\\",
+        "outputPath": "c:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -61,6 +61,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
+            },
+            "VaultSharp": {
+              "target": "Package",
+              "version": "[1.13.0.1, )"
             }
           },
           "imports": [

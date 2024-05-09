@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "f+fGI71eH2/50oxVA14TZv4YD5kZw+TtQQfBtmImpcB3Hly7N9n7Ataqb0HWeSJg/dLvskJ9gULMC3srCEdiMA==",
+  "dgSpecHash": "y+orZNZ3vwQNG86QVH5XpY3SxxCkywvWrFbsSJyxLZXS+QtKv3EO5qTKX8es6+xgbCLwjjDVqfSu1r1t7mm5DA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj",
+  "projectFilePath": "c:\\Users\\Asbjørn\\Desktop\\Auctions_AuthServiceApp\\Auctions_AuthService\\Auctions_AuthService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Asbjørn\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Users\\Asbjørn\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",
@@ -35,6 +35,9 @@
     "C:\\Users\\Asbjørn\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512",
     "C:\\Users\\Asbjørn\\.nuget\\packages\\system.security.accesscontrol\\5.0.0\\system.security.accesscontrol.5.0.0.nupkg.sha512",
     "C:\\Users\\Asbjørn\\.nuget\\packages\\system.security.principal.windows\\5.0.0\\system.security.principal.windows.5.0.0.nupkg.sha512",
+    "C:\\Users\\Asbjørn\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
+    "C:\\Users\\Asbjørn\\.nuget\\packages\\system.text.json\\7.0.2\\system.text.json.7.0.2.nupkg.sha512",
+    "C:\\Users\\Asbjørn\\.nuget\\packages\\vaultsharp\\1.13.0.1\\vaultsharp.1.13.0.1.nupkg.sha512",
     "C:\\Users\\Asbjørn\\.nuget\\packages\\zstdsharp.port\\0.7.3\\zstdsharp.port.0.7.3.nupkg.sha512"
   ],
   "logs": []

@@ -43,6 +43,8 @@ builder.Services.Configure<MongoDBSettings>(options =>
 });
 // tilføjer Repository til services
 builder.Services.AddSingleton<IMongoDBRepository, MongoDBLoginRepository>();
+//builder.Services.AddSingleton<IVaultService, VaultService>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

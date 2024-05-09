@@ -19,11 +19,13 @@ namespace Controllers
         private readonly ILogger<AuthManagerController> _logger;
         private readonly IConfiguration _config;
         private readonly IMongoDBRepository _mongoDBRepository;
-        public AuthManagerController(ILogger<AuthManagerController> logger, IConfiguration config, IMongoDBRepository mongoDBRepository)
+        private readonly IVaultService _vaultService;
+        public AuthManagerController(ILogger<AuthManagerController> logger, IConfiguration config, IMongoDBRepository mongoDBRepository, IVaultService vaultService)
         {
             _config = config;
             _logger = logger;
             _mongoDBRepository = mongoDBRepository;
+            _vaultService = vaultService;
         }
 
         private string GenerateJwtToken(string username)
@@ -144,6 +146,22 @@ namespace Controllers
             return NoContent();
         }
 
+
+        // Vault, har ikk testet denne metode
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<ActionResult<string>> GetSecret()
+        {
+            try
+            {
+                var secret = await _vaultService.GetSecret("hemmeligheder", 3, "secret");
+                return Ok(secret);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
     }
 }
