@@ -1,7 +1,11 @@
 using VaultSharp;
 using VaultSharp.V1.AuthMethods.Token;
-using VaultSharp.V1.AuthMethods;
 using VaultSharp.V1.Commons;
+using System;
+using System.Threading.Tasks;
+using System.Net.Http;
+using Models;
+using VaultSharp.V1.AuthMethods;
 
 namespace Repositories
 {
@@ -9,18 +13,43 @@ namespace Repositories
     {
         private readonly IVaultClient _vaultClient;
 
-        public VaultService(string token, string endPoint)
+        public VaultService()
         {
-            var authMethod = new TokenAuthMethodInfo(token);
-            var vaultClientSettings = new VaultClientSettings(endPoint, authMethod);
+            var EndPoint = Environment.GetEnvironmentVariable("Address");
+            var token = Environment.GetEnvironmentVariable("Token");
+
+            var httpClientHandler = new HttpClientHandler();
+            httpClientHandler.ServerCertificateCustomValidationCallback =
+                (message, cert, chain, sslPolicyErrors) => { return true; };
+            IAuthMethodInfo authMethod =
+                new TokenAuthMethodInfo(token);
+            var vaultClientSettings = new VaultClientSettings(EndPoint, authMethod)
+            {
+                Namespace = "",
+                MyHttpClientProviderFunc = handler
+                    => new HttpClient(httpClientHandler)
+                    {
+                        BaseAddress = new Uri(EndPoint)
+                    }
+            };
             _vaultClient = new VaultClient(vaultClientSettings);
         }
 
-        public async Task<string> GetSecret(string path, int version, string mountPoint)
+        public async Task<string> GetSecretAsync(string path)
         {
-            var kv2Secret = await _vaultClient.V1.Secrets.KeyValue.V2.ReadSecretAsync(path, version, mountPoint);
-            return kv2Secret.Data.Data["ConnectionURI"].ToString();
-        }
+            try
+            {
 
+                Secret<SecretData> kv2Secret = await _vaultClient.V1.Secrets.KeyValue.V2
+                    .ReadSecretAsync(path: "hemmeligheder", mountPoint: "secret");
+                var secretValue = kv2Secret.Data.Data[path];
+                return secretValue.ToString();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving secret: {ex.Message}");
+                return null;
+            }
+        }
     }
 }

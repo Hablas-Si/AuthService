@@ -7,6 +7,10 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using Repositories;
+using VaultSharp;
+using VaultSharp.V1.AuthMethods.Token;
+using VaultSharp.V1.AuthMethods;
+using VaultSharp.V1.Commons;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,18 +39,24 @@ builder.Services
 });
 // Add services to the container.
 
+// miljøvariabler ign terminal
 builder.Services.Configure<MongoDBSettings>(options =>
 {
     options.ConnectionURI = Environment.GetEnvironmentVariable("ConnectionURI");
-    options.DatabaseName = Environment.GetEnvironmentVariable("DatabaseName");
-    options.CollectionName = Environment.GetEnvironmentVariable("CollectionName");
 });
-// tilføjer Repository til services
-builder.Services.AddSingleton<IMongoDBRepository, MongoDBLoginRepository>();
-//builder.Services.AddSingleton<IVaultService, VaultService>();
+builder.Services.Configure<VaultSettings>(options =>
+{
+    options.Address = Environment.GetEnvironmentVariable("Address");
+    options.Token = Environment.GetEnvironmentVariable("Token");
+});
+
+//tilføjer Repository til services
+builder.Services.AddTransient<IMongoDBRepository, MongoDBLoginRepository>();
+builder.Services.AddTransient<IVaultService, VaultService>();
 
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

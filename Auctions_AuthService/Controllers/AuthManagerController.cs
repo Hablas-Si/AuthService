@@ -8,6 +8,10 @@ using System.Text;
 using Models;
 using Repositories;
 using Amazon.Runtime.SharedInterfaces;
+using VaultSharp;
+using VaultSharp.V1.AuthMethods.Token;
+using VaultSharp.V1.AuthMethods;
+using VaultSharp.V1.Commons;
 
 namespace Controllers
 {
@@ -19,57 +23,75 @@ namespace Controllers
         private readonly ILogger<AuthManagerController> _logger;
         private readonly IConfiguration _config;
         private readonly IMongoDBRepository _mongoDBRepository;
-        //  private readonly IVaultService _vaultService;
-        public AuthManagerController(ILogger<AuthManagerController> logger, IConfiguration config, IMongoDBRepository mongoDBRepository/*, IVaultService vaultService*/)
+        private readonly IVaultService _vaultService;
+        public AuthManagerController(ILogger<AuthManagerController> logger, IConfiguration config, IMongoDBRepository mongoDBRepository, IVaultService vaultService)
         {
             _config = config;
             _logger = logger;
             _mongoDBRepository = mongoDBRepository;
-            //  _vaultService = vaultService;
+            _vaultService = vaultService;
         }
 
-        private string GenerateJwtToken(string username)
+        private string GenerateJwtToken(string username, bool isAdmin)
         {
-            // Henter miljøvariablen fra _config aka IConfiguration aka export i terminalen. Se miljø.md fil for mere info
-            var securityKey =
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Secret"]));
+            // Henter secret og issuer fra vault
+            var secret = _vaultService.GetSecretAsync("Secret").Result;
+            var issuer = _vaultService.GetSecretAsync("Issuer").Result;
 
-            var credentials =
-            new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
+            // Tilføjer rolle baseret på isAdmin-værdien fra parameteren
+            var roleClaim = isAdmin ? new Claim(ClaimTypes.Role, "Admin") : new Claim(ClaimTypes.Role, "User");
+
+            // Tilføjelse af navneidentifieringsklaimet og rolleklaimet
             var claims = new[]
             {
-            new Claim(ClaimTypes.NameIdentifier, username)
-             // lav en ny claim her som er rolle og den skal passe til modelklassen "Role" i LoginModel.cs
-           // new Claim(ClaimTypes.Role, "Admin")
+                 new Claim(ClaimTypes.NameIdentifier, username),
+                 roleClaim
             };
 
-            // Henter miljøvariablen fra _config aka IConfiguration aka export i terminalen. Se miljø.md fil for mere info
             var token = new JwtSecurityToken(
-            Environment.GetEnvironmentVariable("Issuer"),
-            "http://localhost",
-            claims,
-            expires: DateTime.Now.AddMinutes(15),
-            signingCredentials: credentials);
+                issuer,
+                "http://localhost",
+                claims,
+                expires: DateTime.Now.AddMinutes(15),
+                signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+
         [AllowAnonymous]
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel login)
+        [HttpPost("login/user")]
+        public async Task<IActionResult> LoginBruger([FromBody] LoginModel login)
         {
-            // Tjekker om brugeren eksisterer og om password matcher i db. Hvis ja, genereres en token og returneres. Dette sker vha. metoden CheckIfUserExistsWithPassword i MongoDBRepository som har 2 parametre, username og password.
-            if (await _mongoDBRepository.CheckIfUserExistsWithPassword(login.Username, login.Password) == true)
+            // Tjekker om brugeren eksisterer og om password og role matcher i db. Hvis ja, genereres en token og returneres. Dette sker vha. metoden CheckIfUserExistsWithPassword i MongoDBRepository som har 3 parametre, username og password og role.
+            if (await _mongoDBRepository.CheckIfUserExistsWithPassword(login.Username, login.Password, login.Role) == true)
             {
-                var token = GenerateJwtToken(login.Username);
+                //Kalder GenereateJwtToken metoden med false parameter som angiver at login ikke er admin så den får rolle med i token
+                var token = GenerateJwtToken(login.Username, false);
+                return Ok(new { token });
+            }
+            return Unauthorized();
+        }
+
+        [AllowAnonymous]
+        [HttpPost("login/admin")]
+        public async Task<IActionResult> LoginAdmin([FromBody] LoginModel login)
+        {
+            // Tjekker om brugeren eksisterer og om password og role matcher i db. Hvis ja, genereres en token og returneres. Dette sker vha. metoden CheckIfUserExistsWithPassword i MongoDBRepository som har 3 parametre, username og password og role.
+            if (await _mongoDBRepository.CheckIfUserExistsWithPassword(login.Username, login.Password, login.Role) == true)
+            {
+                //Kalder GenereateJwtToken metoden med true parameter som angiver at login er admin så den får rolle med i token
+                var token = GenerateJwtToken(login.Username, true);
                 return Ok(new { token });
             }
             return Unauthorized();
         }
 
         // OBS: TIlføj en Authorize attribute til metoderne nedenunder Kig ovenfor i jwt token creation. 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet("authorized")]
         public IActionResult Authorized()
         {
@@ -147,21 +169,31 @@ namespace Controllers
         }
 
 
-        // Vault, har ikk testet denne metode
-        /*   [AllowAnonymous]
-           [HttpGet]
-           public async Task<ActionResult<string>> GetSecret()
-           {
-               try
-               {
-                   var secret = await _vaultService.GetSecret("hemmeligheder", 3, "secret");
-                   return Ok(secret);
-               }
-               catch (Exception ex)
-               {
-                   return StatusCode(500, $"Internal server error: {ex.Message}");
-               }
-           } */
+        // En get der henter secrets ned fra vault
+        [AllowAnonymous]
+        [HttpGet("getsecret/{path}")]
+        public async Task<IActionResult> GetSecret(string path)
+        {
+            try
+            {
+                var secretValue = await _vaultService.GetSecretAsync(path);
+                if (secretValue != null)
+                {
+                    return Ok(secretValue);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error retrieving secret: {ex}");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving secret.");
+            }
+        }
+
+
 
     }
 }

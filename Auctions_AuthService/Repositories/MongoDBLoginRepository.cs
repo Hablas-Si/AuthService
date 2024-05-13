@@ -25,9 +25,9 @@ namespace Repositories
             // Hvis brugeren findes returneres true, ellers false.
             return user != null;
         }
-        public async Task<bool> CheckIfUserExistsWithPassword(string Username, string Password)
+        public async Task<bool> CheckIfUserExistsWithPassword(string Username, string Password, string Role)
         {
-            var user = await LoginUsersCollection.Find(new BsonDocument("Username", Username).Add("Password", Password)).FirstOrDefaultAsync();
+            var user = await LoginUsersCollection.Find(new BsonDocument("Username", Username).Add("Password", Password).Add("Role", Role)).FirstOrDefaultAsync();
             // Hvis brugeren findes returneres true, ellers false.
             return user != null;
         }

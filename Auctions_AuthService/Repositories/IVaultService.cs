@@ -7,6 +7,6 @@ namespace Repositories
 {
     public interface IVaultService
     {
-        Task<string> GetSecret(string path, int version, string mountPoint);
+        Task<string> GetSecretAsync(string path);
     }
 }
