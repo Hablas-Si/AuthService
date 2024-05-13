@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Models
