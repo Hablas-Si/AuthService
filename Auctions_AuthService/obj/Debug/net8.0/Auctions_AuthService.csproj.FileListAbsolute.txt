@@ -52,3 +52,4 @@ C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug
 C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\runtimes\linux\native\libmongocrypt.so
 C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\runtimes\osx\native\libmongocrypt.dylib
 C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\runtimes\win\native\mongocrypt.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\VaultSharp.dll
