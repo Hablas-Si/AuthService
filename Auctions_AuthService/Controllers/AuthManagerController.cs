@@ -17,7 +17,7 @@ namespace Controllers
 {
 
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AuthManagerController : ControllerBase
     {
         private readonly ILogger<AuthManagerController> _logger;
@@ -98,76 +98,6 @@ namespace Controllers
             // Hvis brugeren har en gyldig JWT-token, vil denne metode blive udført
             return Ok("You are authorized to access this resource.");
         }
-
-        [AllowAnonymous]
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] LoginModel login)
-        {
-            //Tjekker om brugeren allerede eksisterer
-            if (await _mongoDBRepository.CheckIfUserExists(login.Username) == true)
-            {
-                return BadRequest("User already exists");
-            }
-
-            await _mongoDBRepository.AddLoginUser(login);
-            return Ok("User created");
-        }
-
-        [AllowAnonymous]
-        [HttpGet("getuser/{id}")]
-        public async Task<IActionResult> GetUser(Guid id)
-        {
-            var user = await _mongoDBRepository.FindUser(id);
-            if (user is null)
-            {
-                return NotFound();
-            }
-            return Ok(user);
-        }
-
-        [AllowAnonymous]
-        [HttpPut("updateuser/{id}")]
-        public async Task<IActionResult> UpdateUser(Guid id, LoginModel login)
-        {
-            // henter først en user vha. FindUser metode udfra id bestemt i UpdateUser parametren.
-            var existingUser = await _mongoDBRepository.FindUser(id);
-
-            if (existingUser == null)
-            {
-                return NotFound();
-            }
-
-            // Opdaterer de relevante felter på den eksisterende bruger
-            existingUser.Username = login.Username;
-            existingUser.Password = login.Password;
-            existingUser.Role = login.Role;
-
-            // Kalder metode til at opdatere brugeren i databasen
-            await _mongoDBRepository.UpdateUser(existingUser);
-
-            // returner statuskode 204
-            return NoContent();
-        }
-
-        [AllowAnonymous]
-        [HttpDelete("deleteuser/{id}")]
-        public async Task<IActionResult> DeleteUser(Guid id)
-        {
-            // henter først en vare vha. GetVare metode udfra id bestemt i UpdateVare parametren.
-            var existingUser = await _mongoDBRepository.FindUser(id);
-
-            if (existingUser == null)
-            {
-                return NotFound();
-            }
-
-            // ovenover matchede vi id med id fra paramtre og nu sletter vi den
-            await _mongoDBRepository.DeleteUser(id);
-
-            // statuskode 204
-            return NoContent();
-        }
-
 
         // En get der henter secrets ned fra vault
         [AllowAnonymous]
