@@ -9,9 +9,5 @@ namespace Repositories
     {
         Task<bool> CheckIfUserExists(string Username);
         Task<bool> CheckIfUserExistsWithPassword(string Username, string Password, string role);
-        Task AddLoginUser(LoginModel login);
-        Task<LoginModel> FindUser(Guid id);
-        Task UpdateUser(LoginModel login);
-        Task DeleteUser(Guid id);
     }
 }
