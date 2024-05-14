@@ -11,14 +11,18 @@ namespace Models
         public Guid Id { get; set; }
         public string? Username { get; set; }
         public string? Password { get; set; }
+        public string? Email { get; set; }
+        public DateTime? registrationDate { get; set; } = DateTime.UtcNow.AddHours(2);
         public string? Role { get; set; } = "User"; // default role er "User
 
-        public LoginModel(string? username, string? password, string? role)
+        public LoginModel(string? username, string? password, string? role, string? email, DateTime registrationdate)
         {
             Id = Guid.NewGuid();
             Username = username;
             Password = password;
             Role = role;
+            Email = email;
+            registrationDate = registrationdate;
         }
 
         public LoginModel()

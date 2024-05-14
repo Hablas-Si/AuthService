@@ -10,12 +10,9 @@ namespace Repositories
     {
         private readonly IMongoCollection<LoginModel> LoginUsersCollection;
 
-        public MongoDBLoginRepository(IOptions<MongoDBSettings> mongoDBSettings)
+        public MongoDBLoginRepository(IMongoCollection<LoginModel> loginUsersCollection)
         {
-            // trækker connection string og database navn og collectionname fra program.cs aka fra terminalen ved export. Dette er en constructor injection.
-            MongoClient client = new MongoClient(mongoDBSettings.Value.ConnectionURI);
-            IMongoDatabase database = client.GetDatabase(mongoDBSettings.Value.DatabaseName);
-            LoginUsersCollection = database.GetCollection<LoginModel>(mongoDBSettings.Value.CollectionName);
+          LoginUsersCollection = loginUsersCollection;
         }
 
         public async Task<bool> CheckIfUserExists(string Username)
