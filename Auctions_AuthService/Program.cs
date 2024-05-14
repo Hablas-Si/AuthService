@@ -40,10 +40,6 @@ builder.Services
 // Add services to the container.
 
 // miljøvariabler ign terminal
-builder.Services.Configure<MongoDBSettings>(options =>
-{
-    options.ConnectionURI = Environment.GetEnvironmentVariable("ConnectionURI");
-});
 builder.Services.Configure<VaultSettings>(options =>
 {
     options.Address = Environment.GetEnvironmentVariable("Address");

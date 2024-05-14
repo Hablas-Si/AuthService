@@ -10,12 +10,9 @@ namespace Repositories
     {
         private readonly IMongoCollection<LoginModel> LoginUsersCollection;
 
-        public MongoDBLoginRepository(IOptions<MongoDBSettings> mongoDBSettings)
+        public MongoDBLoginRepository(IMongoCollection<LoginModel> loginUsersCollection)
         {
-            // trækker connection string og database navn og collectionname fra program.cs aka fra terminalen ved export. Dette er en constructor injection.
-            MongoClient client = new MongoClient(mongoDBSettings.Value.ConnectionURI);
-            IMongoDatabase database = client.GetDatabase(mongoDBSettings.Value.DatabaseName);
-            LoginUsersCollection = database.GetCollection<LoginModel>(mongoDBSettings.Value.CollectionName);
+          LoginUsersCollection = loginUsersCollection;
         }
 
         public async Task<bool> CheckIfUserExists(string Username)
@@ -31,38 +28,6 @@ namespace Repositories
             var user = await LoginUsersCollection.Find(new BsonDocument("Username", Username).Add("Password", Password).Add("Role", Role)).FirstOrDefaultAsync();
             // Hvis brugeren findes returneres true, ellers false.
             return user != null;
-        }
-
-        public async Task AddLoginUser(LoginModel login)
-        {
-            login.Role = "User";
-            await LoginUsersCollection.InsertOneAsync(login);
-        }
-
-        public async Task<LoginModel> FindUser(Guid id)
-        {
-            return await LoginUsersCollection.Find(user => user.Id == id).FirstOrDefaultAsync();
-        }
-
-        public async Task UpdateUser(LoginModel login)
-        {
-            // Opret et filter baseret på user Id. Bruger Builder fra mongodb biblio. Eq står for equals og matcher id'erne med dem man taster ind fra parameteren.
-            var filter = Builders<LoginModel>.Filter.Eq(x => x.Id, login.Id);
-            // Laver en opdatering baseret på de nye værdier af user og "replacer" dem.
-            var update = Builders<LoginModel>.Update
-               .Set(x => x.Username, login.Username)
-               .Set(x => x.Password, login.Password)
-               .Set(x => x.Role, login.Role);
-
-            // erstatter den gamle med det nye man har valgt (username, password).
-            await LoginUsersCollection.ReplaceOneAsync(filter, login);
-        }
-
-        public async Task DeleteUser(Guid id)
-        {
-            // note: skal laves om til .BsonDocument() da DeleteOneAsync() kun kan fjerne 1 dokument og ik objekt
-            var UserDerSkalSlettes = LoginUsersCollection.Find(user => user.Id == id).FirstOrDefault().ToBsonDocument();
-            await LoginUsersCollection.DeleteOneAsync(UserDerSkalSlettes);
         }
     }
 }
