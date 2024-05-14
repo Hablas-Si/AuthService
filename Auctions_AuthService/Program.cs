@@ -47,9 +47,15 @@ builder.Services.Configure<VaultSettings>(options =>
 });
 
 //tilføjer Repository til services
-builder.Services.AddTransient<IMongoDBRepository, MongoDBLoginRepository>();
+// builder.Services.AddTransient<IMongoDBRepository, MongoDBLoginRepository>();
 builder.Services.AddTransient<IVaultService, VaultService>();
+// Konfigurer HttpClient for AuctionHouse
+var useraddress = Environment.GetEnvironmentVariable("UserAddress");
+builder.Services.AddHttpClient<IUserRepository, UserRespository>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5265"); // URL til UserService
 
+});
 
 builder.Services.AddControllers();
 
