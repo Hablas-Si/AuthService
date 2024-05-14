@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Auctions_AuthService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+abdb8946631151a6041f2436bab0f1eae1d1af25")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+590ef7c5cb6c2ed308fc697584d13e0e5ad7143d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Auctions_AuthService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Auctions_AuthService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
