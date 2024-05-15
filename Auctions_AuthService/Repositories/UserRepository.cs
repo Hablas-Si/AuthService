@@ -22,12 +22,11 @@ namespace Repositories
             return response;
         }
 
-        public async Task<bool> CheckIfUserExistsWithPassword(string Username, string Password, string Role)
+        public async Task<bool> ValidateUserAsync(LoginModel login)
         {
-            // Bruger find for at finde en bruger med det indtastede brugernavn og password og role. Hvis brugeren findes returneres den ellers null.
-            var user = await LoginUsersCollection.Find(new BsonDocument("Username", Username).Add("Password", Password).Add("Role", Role)).FirstOrDefaultAsync();
-            // Hvis brugeren findes returneres true, ellers false.
-            return user != null;
+            var userServiceResponse = await _httpClient.PostAsJsonAsync("/api/User/login/validate", login);
+            userServiceResponse.EnsureSuccessStatusCode();
+            return await userServiceResponse.Content.ReadAsAsync<bool>();
         }
     }
 

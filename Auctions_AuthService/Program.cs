@@ -55,8 +55,8 @@ builder.Services.AddTransient<IVaultService, VaultService>();
 
 builder.Services.AddHttpClient<IUserRepository, UserRespository>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5035"); // URL til UserService
-    
+    client.BaseAddress = new Uri("http://localhost:5265"); // URL til UserService
+
 
 });
 

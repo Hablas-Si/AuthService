@@ -13,7 +13,7 @@ namespace Models
         public string? Password { get; set; }
         public string? Email { get; set; }
         public DateTime? registrationDate { get; set; } = DateTime.UtcNow.AddHours(2);
-        public string? Role { get; set; } = "User"; // default role er "User
+        public string? Role { get; set; } = "User";
 
         public LoginModel(string? username, string? password, string? role, string? email, DateTime registrationdate)
         {

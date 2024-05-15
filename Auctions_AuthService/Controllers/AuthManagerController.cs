@@ -12,6 +12,8 @@ using VaultSharp;
 using VaultSharp.V1.AuthMethods.Token;
 using VaultSharp.V1.AuthMethods;
 using VaultSharp.V1.Commons;
+using System.Net.Http.Formatting;
+
 
 namespace Controllers
 {
@@ -22,17 +24,21 @@ namespace Controllers
     {
         private readonly ILogger<AuthManagerController> _logger;
         private readonly IConfiguration _config;
-        private readonly IMongoDBRepository _mongoDBRepository;
+        //private readonly IMongoDBRepository _mongoDBRepository;
         private readonly IVaultService _vaultService;
         private readonly IUserRepository _UserService;
-        public AuthManagerController(ILogger<AuthManagerController> logger, IConfiguration config, IVaultService vaultService, IMongoDBRepository mongoDBRepository, IUserRepository userRepository)
+        private readonly HttpClient _httpClient;
+
+        public AuthManagerController(ILogger<AuthManagerController> logger, IConfiguration config, IVaultService vaultService,/* IMongoDBRepository mongoDBRepository,*/ IUserRepository userRepository, HttpClient httpClient)
         {
             _config = config;
             _logger = logger;
             _vaultService = vaultService;
-            _mongoDBRepository = mongoDBRepository;
+            //  _mongoDBRepository = mongoDBRepository;
             _UserService = userRepository;
+            _httpClient = httpClient;
         }
+
 
         private string GenerateJwtToken(string username, bool isAdmin)
         {
@@ -64,37 +70,86 @@ namespace Controllers
         }
 
 
+
         [AllowAnonymous]
-        [HttpPost("login/user")]
-        public async Task<IActionResult> LoginBruger([FromBody] LoginModel login)
+        [HttpPost("loginUser")]
+        public async Task<IActionResult> LoginUser([FromBody] LoginModel login)
         {
-            // Tjekker om brugeren eksisterer og om password og role matcher i db. Hvis ja, genereres en token og returneres. Dette sker vha. metoden CheckIfUserExistsWithPassword i MongoDBRepository som har 3 parametre, username og password og role.
-            if (await _mongoDBRepository.CheckIfUserExistsWithPassword(login.Username, login.Password, login.Role) == true)
+            var isValidUser = await _UserService.ValidateUserAsync(login);
+            if (isValidUser)
             {
-                //Kalder GenereateJwtToken metoden med false parameter som angiver at login ikke er admin så den får rolle med i token
-                var token = GenerateJwtToken(login.Username, false);
-                return Ok(new { token });
+                // Check om rollen er User før du genererer JWT
+                if (login.Role == "User")
+                {
+                    var token = GenerateJwtToken(login.Username, false);
+                    return Ok(new { token });
+                }
+                else
+                {
+                    return Unauthorized("User har ikke rigtig role.");
+                }
             }
             return Unauthorized();
         }
 
         [AllowAnonymous]
-        [HttpPost("login/admin")]
+        [HttpPost("loginAdmin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> LoginAdmin([FromBody] LoginModel login)
         {
-            // Tjekker om brugeren eksisterer og om password og role matcher i db. Hvis ja, genereres en token og returneres. Dette sker vha. metoden CheckIfUserExistsWithPassword i MongoDBRepository som har 3 parametre, username og password og role.
-            if (await _mongoDBRepository.CheckIfUserExistsWithPassword(login.Username, login.Password, login.Role) == true)
+            // Sæt rollen til Admin i stedet for standardværdien User. Havde problemer med at få den til at virke selvom i db der findes en bruger med role Admin. Dette er et fix samt ovenover med "[Authorize(Roles = "Admin")]". Der er noget logik hvor den resetter rollen til User, så det er en workaround. 
+            login.Role = "Admin";
+            var isValidUser = await _UserService.ValidateUserAsync(login);
+            if (isValidUser)
             {
-                //Kalder GenereateJwtToken metoden med true parameter som angiver at login er admin så den får rolle med i token
-                var token = GenerateJwtToken(login.Username, true);
-                return Ok(new { token });
+                // Check om rollen er "Admin" før du genererer JWT
+                if (login.Role == "Admin")
+                {
+                    var token = GenerateJwtToken(login.Username, true);
+                    return Ok(new { token });
+                }
+                else
+                {
+                    return Unauthorized("User har ikke rigtig role.");
+                }
             }
             return Unauthorized();
         }
+
+
+
+
+        // [AllowAnonymous]
+        // [HttpPost("login/user")]
+        // public async Task<IActionResult> LoginBruger([FromBody] LoginModel login)
+        // {
+        //     // Tjekker om brugeren eksisterer og om password og role matcher i db. Hvis ja, genereres en token og returneres. Dette sker vha. metoden CheckIfUserExistsWithPassword i MongoDBRepository som har 3 parametre, username og password og role.
+        //     if (await _mongoDBRepository.CheckIfUserExistsWithPassword(login.Username, login.Password, login.Role) == true)
+        //     {
+        //         //Kalder GenereateJwtToken metoden med false parameter som angiver at login ikke er admin så den får rolle med i token
+        //         var token = GenerateJwtToken(login.Username, false);
+        //         return Ok(new { token });
+        //     }
+        //     return Unauthorized();
+        // }
+
+        // [AllowAnonymous]
+        // [HttpPost("login/admin")]
+        // public async Task<IActionResult> LoginAdmin([FromBody] LoginModel login)
+        // {
+        //     // Tjekker om brugeren eksisterer og om password og role matcher i db. Hvis ja, genereres en token og returneres. Dette sker vha. metoden CheckIfUserExistsWithPassword i MongoDBRepository som har 3 parametre, username og password og role.
+        //     if (await _mongoDBRepository.CheckIfUserExistsWithPassword(login.Username, login.Password, login.Role) == true)
+        //     {
+        //         //Kalder GenereateJwtToken metoden med true parameter som angiver at login er admin så den får rolle med i token
+        //         var token = GenerateJwtToken(login.Username, true);
+        //         return Ok(new { token });
+        //     }
+        //     return Unauthorized();
+        // }
 
         // OBS: TIlføj en Authorize attribute til metoderne nedenunder Kig ovenfor i jwt token creation. 
         [Authorize(Roles = "Admin")]
-        [HttpGet("authorized")]
+        [HttpGet("  ")]
         public IActionResult Authorized()
         {
             // Hvis brugeren har en gyldig JWT-token, vil denne metode blive udført
