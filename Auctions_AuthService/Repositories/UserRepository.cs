@@ -1,21 +1,27 @@
-using Models;
-using MongoDB.Bson;
-using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
+using Models;
 
 namespace Repositories
 {
-    public class MongoDBLoginRepository : IMongoDBRepository
+    public class UserRespository : IUserRepository
     {
-        private readonly IMongoCollection<LoginModel> LoginUsersCollection;
+        private readonly HttpClient _httpClient;
 
-        public MongoDBLoginRepository(IMongoCollection<LoginModel> loginUsersCollection)
+        public UserRespository(HttpClient httpClient)
         {
-          LoginUsersCollection = loginUsersCollection;
+            _httpClient = httpClient;
         }
 
-    
+        public async Task<HttpResponseMessage> GetUserAsync(Guid userId)
+        {
+            var response = await _httpClient.GetAsync($"/api/User/getuser/{userId}");
+            response.EnsureSuccessStatusCode();
+            return response;
+        }
+
         public async Task<bool> CheckIfUserExistsWithPassword(string Username, string Password, string Role)
         {
             // Bruger find for at finde en bruger med det indtastede brugernavn og password og role. Hvis brugeren findes returneres den ellers null.
@@ -24,4 +30,5 @@ namespace Repositories
             return user != null;
         }
     }
+
 }

@@ -24,12 +24,14 @@ namespace Controllers
         private readonly IConfiguration _config;
         private readonly IMongoDBRepository _mongoDBRepository;
         private readonly IVaultService _vaultService;
-        public AuthManagerController(ILogger<AuthManagerController> logger, IConfiguration config, IMongoDBRepository mongoDBRepository, IVaultService vaultService)
+        private readonly IUserRepository _UserService;
+        public AuthManagerController(ILogger<AuthManagerController> logger, IConfiguration config, IVaultService vaultService, IMongoDBRepository mongoDBRepository, IUserRepository userRepository)
         {
             _config = config;
             _logger = logger;
-            _mongoDBRepository = mongoDBRepository;
             _vaultService = vaultService;
+            _mongoDBRepository = mongoDBRepository;
+            _UserService = userRepository;
         }
 
         private string GenerateJwtToken(string username, bool isAdmin)

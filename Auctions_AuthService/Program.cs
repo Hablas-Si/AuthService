@@ -11,6 +11,8 @@ using VaultSharp;
 using VaultSharp.V1.AuthMethods.Token;
 using VaultSharp.V1.AuthMethods;
 using VaultSharp.V1.Commons;
+using Microsoft.Extensions.Options;
+using model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,9 +49,16 @@ builder.Services.Configure<VaultSettings>(options =>
 });
 
 //tilføjer Repository til services
-builder.Services.AddTransient<IMongoDBRepository, MongoDBLoginRepository>();
+// builder.Services.AddTransient<IMongoDBRepository, MongoDBLoginRepository>();
 builder.Services.AddTransient<IVaultService, VaultService>();
+// Konfigurer HttpClient for AuctionHouse
 
+builder.Services.AddHttpClient<IUserRepository, UserRespository>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5035"); // URL til UserService
+    
+
+});
 
 builder.Services.AddControllers();
 
