@@ -32,7 +32,7 @@ namespace Controllers
                 {
                     return NotFound($"User with ID {userID} not found.");
                 }
-            
+
                 var content = await response.Content.ReadAsStringAsync();                       //Bruges til at læse dataene
                 return Content(content, response.Content.Headers.ContentType.ToString());   //Bruges til at læse dataene
             }
@@ -42,15 +42,8 @@ namespace Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
 
-            // _logger.LogInformation("Getting catalog with id {catalogId}", userID);
-            // var response = await _userService.GetUserAsync(userID);
-
-            // return Ok(response);
         }
 
-        
-        // Tilføj andre metoder, hvis nødvendigt
-        
     }
 
 

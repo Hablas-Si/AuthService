@@ -12,7 +12,6 @@ using VaultSharp.V1.AuthMethods.Token;
 using VaultSharp.V1.AuthMethods;
 using VaultSharp.V1.Commons;
 using Microsoft.Extensions.Options;
-using model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,16 +48,15 @@ builder.Services.Configure<VaultSettings>(options =>
 });
 
 //tilføjer Repository til services
-// builder.Services.AddTransient<IMongoDBRepository, MongoDBLoginRepository>();
 builder.Services.AddTransient<IVaultService, VaultService>();
-// Konfigurer HttpClient for AuctionHouse
 
+// Konfigurer HttpClient for UserService. Hardcoded URL men det er vel ik en secret?
 builder.Services.AddHttpClient<IUserRepository, UserRespository>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5265"); // URL til UserService
-
-
+    client.BaseAddress = new Uri("http://localhost:5265");
 });
+
+
 
 builder.Services.AddControllers();
 
