@@ -17,7 +17,7 @@ using System.Net.Http.Formatting;
 
 namespace Controllers
 {
-
+    // kommentar til test af github actions
     [ApiController]
     [Route("api/[controller]")]
     public class AuthManagerController : ControllerBase
