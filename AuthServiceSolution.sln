@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auctions_AuthService", "Auctions_AuthService.csproj", "{AE52EEE8-20FC-4ADF-AC62-5EA0C20E219D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auctions_AuthService", "Auctions_AuthService\Auctions_AuthService.csproj", "{02AEB6CD-59C1-48FF-8ADB-49329F9CF3B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,9 +14,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AE52EEE8-20FC-4ADF-AC62-5EA0C20E219D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE52EEE8-20FC-4ADF-AC62-5EA0C20E219D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE52EEE8-20FC-4ADF-AC62-5EA0C20E219D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE52EEE8-20FC-4ADF-AC62-5EA0C20E219D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02AEB6CD-59C1-48FF-8ADB-49329F9CF3B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02AEB6CD-59C1-48FF-8ADB-49329F9CF3B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02AEB6CD-59C1-48FF-8ADB-49329F9CF3B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02AEB6CD-59C1-48FF-8ADB-49329F9CF3B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
