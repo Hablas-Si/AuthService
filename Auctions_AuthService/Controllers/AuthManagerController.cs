@@ -64,7 +64,7 @@ namespace Controllers
             var claims = new[]
             {
                  new Claim(ClaimTypes.NameIdentifier, username),
-                 new Claim(ClaimTypes.Role, roleClaim.Value)
+                 roleClaim
             };
 
             var token = new JwtSecurityToken(
