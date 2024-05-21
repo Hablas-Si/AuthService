@@ -49,6 +49,12 @@ builder.Services
     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(mySecret))
     };
 });
+// Tilføjer authorization politikker som bliver brugt i controlleren
+builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+        options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
+    });
 // Add services to the container.
 
 // miljøvariabler ign terminal

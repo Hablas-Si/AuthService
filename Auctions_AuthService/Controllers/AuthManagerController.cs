@@ -73,6 +73,7 @@ namespace Controllers
 
         [AllowAnonymous]
         [HttpPost("loginUser")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> LoginUser([FromBody] LoginModel login)
         {
             var isValidUser = await _UserService.ValidateUserAsync(login);
@@ -117,13 +118,14 @@ namespace Controllers
         }
 
         // OBS: TIlføj en Authorize attribute til metoderne nedenunder Kig ovenfor i jwt token creation. 
-        [Authorize(Roles = "Admin")]
         [HttpGet("authorized")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Authorized()
         {
-            // Hvis brugeren har en gyldig JWT-token, vil denne metode blive udført
+            // Hvis brugeren har en gyldig JWT-token og rollen "Admin", vil denne metode blive udført
             return Ok("You are authorized to access this resource.");
         }
+
 
         // En get der henter secrets ned fra vault
         [AllowAnonymous]
