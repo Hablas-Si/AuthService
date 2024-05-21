@@ -64,7 +64,7 @@ namespace Controllers
             var claims = new[]
             {
                  new Claim(ClaimTypes.NameIdentifier, username),
-                 roleClaim
+                 new Claim(ClaimTypes.Role, roleClaim.Value)
             };
 
             var token = new JwtSecurityToken(
@@ -125,7 +125,7 @@ namespace Controllers
 
         // OBS: TIlføj en Authorize attribute til metoderne nedenunder Kig ovenfor i jwt token creation. 
         [HttpGet("authorized")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Authorized()
         {
             // Hvis brugeren har en gyldig JWT-token og rollen "Admin", vil denne metode blive udført
