@@ -50,7 +50,15 @@ namespace Controllers
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             // Tilføjer rolle baseret på isAdmin-værdien fra parameteren
-            var roleClaim = isAdmin ? new Claim(ClaimTypes.Role, "Admin") : new Claim(ClaimTypes.Role, "User");
+            Claim roleClaim;
+            if (isAdmin == true)
+            {
+                roleClaim = new Claim(ClaimTypes.Role, "Admin");
+            }
+            else
+            {
+                roleClaim = new Claim(ClaimTypes.Role, "User");
+            }
 
             // Tilføjelse af navneidentifieringsklaimet og rolleklaimet
             var claims = new[]
