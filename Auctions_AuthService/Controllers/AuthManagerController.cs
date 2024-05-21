@@ -125,7 +125,7 @@ namespace Controllers
 
         // OBS: TIlføj en Authorize attribute til metoderne nedenunder Kig ovenfor i jwt token creation. 
         [HttpGet("authorized")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         public IActionResult Authorized()
         {
             // Hvis brugeren har en gyldig JWT-token og rollen "Admin", vil denne metode blive udført
