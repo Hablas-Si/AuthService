@@ -12,8 +12,19 @@ using VaultSharp.V1.AuthMethods.Token;
 using VaultSharp.V1.AuthMethods;
 using VaultSharp.V1.Commons;
 using Microsoft.Extensions.Options;
+using NLog.Web;
+using NLog;
+
+
+var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings()
+.GetCurrentClassLogger();
+logger.Debug("init main");
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
 
 // BsonSeralizer... fortæller at hver gang den ser en Guid i alle entiteter skal den serializeres til en string. 
 BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
