@@ -21,6 +21,7 @@ services:
     command: 'server -dev -dev-root-token-id="00000000-0000-0000-0000-000000000000"'
 
   authservice:
+    hostname: authservice
     depends_on:
       - userservice
     image: asbjorndev/auctions_authservice-image:1.0.0
@@ -30,6 +31,7 @@ services:
       #Tager Hostname fra vaults_dev
       - Address=https://vaulthost:8201/
       - Token=00000000-0000-0000-0000-000000000000
+      - UserServiceUrl=http://userservice:8080
     networks:
       - my_network
     # Konfigurér logning til standardudgangen (stdout)
@@ -42,6 +44,7 @@ services:
 
   userservice:
     image: asbjorndev/auction_userservice-image:latest
+    hostname: userservice
     ports:
       - "5051:8080"
     environment:
@@ -69,6 +72,7 @@ services:
       - "3000:3000"
     networks:
       - my_network
+
 networks:
   my_network:
     driver: bridge

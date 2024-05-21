@@ -62,9 +62,19 @@ builder.Services.Configure<VaultSettings>(options =>
 builder.Services.AddTransient<IVaultService, VaultService>();
 
 // Konfigurer HttpClient for UserService. Hardcoded URL men det er vel ik en secret?
+var userServiceUrl = Environment.GetEnvironmentVariable("UserServiceUrl");
+if (string.IsNullOrEmpty(userServiceUrl))
+{
+    logger.Error("UserServiceUrl is missing");
+    throw new ApplicationException("UserServiceUrl is missing");
+}
+else
+{
+    logger.Info("UserServiceUrl is: " + userServiceUrl);
+}
 builder.Services.AddHttpClient<IUserRepository, UserRespository>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5265");
+    client.BaseAddress = new Uri(userServiceUrl);
 });
 
 
