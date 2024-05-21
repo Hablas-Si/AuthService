@@ -73,7 +73,6 @@ namespace Controllers
 
         [AllowAnonymous]
         [HttpPost("loginUser")]
-        [Authorize(Roles = "User")]
         public async Task<IActionResult> LoginUser([FromBody] LoginModel login)
         {
             var isValidUser = await _UserService.ValidateUserAsync(login);
@@ -95,7 +94,6 @@ namespace Controllers
 
         [AllowAnonymous]
         [HttpPost("loginAdmin")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> LoginAdmin([FromBody] LoginModel login)
         {
             // Sæt rollen til Admin i stedet for standardværdien User. Havde problemer med at få den til at virke selvom i db der findes en bruger med role Admin. Dette er et fix samt ovenover med "[Authorize(Roles = "Admin")]". Der er noget logik hvor den resetter rollen til User, så det er en workaround. 
