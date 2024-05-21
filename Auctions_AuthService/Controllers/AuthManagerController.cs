@@ -132,6 +132,7 @@ namespace Controllers
         {
             try
             {
+                _logger.LogInformation($"Getting secret with path {path}");
                 var secretValue = await _vaultService.GetSecretAsync(path);
                 if (secretValue != null)
                 {
