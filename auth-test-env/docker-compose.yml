@@ -2,6 +2,7 @@ version: "3.7"
 services:
   vault_dev:
     image: hashicorp/vault:latest
+    hostname: vaulthost
     restart: on-failure:10
     ports:
       - "8201:8201"
@@ -14,6 +15,61 @@ services:
       - IPC_LOCK
     volumes:
       - ./vault-volume:/data
+    #     - vaultvolume:containerPath:
     healthcheck:
       retries: 5
     command: 'server -dev -dev-root-token-id="00000000-0000-0000-0000-000000000000"'
+
+  authservice:
+    depends_on:
+      - userservice
+    image: asbjorndev/auctions_authservice-image:1.0.0
+    ports:
+      - "5050:8080"
+    environment:
+      #Tager Hostname fra vaults_dev
+      - Address=https://vaulthost:8201/
+      - Token=00000000-0000-0000-0000-000000000000
+    networks:
+      - my_network
+    # Konfigurér logning til standardudgangen (stdout)
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # Angiv Loki URL som miljøvariabel
+
+  userservice:
+    image: asbjorndev/auction_userservice-image:latest
+    ports:
+      - "5051:8080"
+    environment:
+      - ConnectionURI=mongodb+srv://admin:admin@auctionhouse.dfo2bcd.mongodb.net/
+    networks:
+      - my_network
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  loki:
+    image: grafana/loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - my_network
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - my_network
+networks:
+  my_network:
+    driver: bridge
+#volume:
+#  vaultvolume:
