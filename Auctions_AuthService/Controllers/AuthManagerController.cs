@@ -17,24 +17,21 @@ using System.Net.Http.Formatting;
 
 namespace Controllers
 {
-    // kommentar til test af github actions v3
     [ApiController]
     [Route("api/[controller]")]
     public class AuthManagerController : ControllerBase
     {
         private readonly ILogger<AuthManagerController> _logger;
         private readonly IConfiguration _config;
-        //private readonly IMongoDBRepository _mongoDBRepository;
         private readonly IVaultService _vaultService;
         private readonly IUserRepository _UserService;
         private readonly HttpClient _httpClient;
 
-        public AuthManagerController(ILogger<AuthManagerController> logger, IConfiguration config, IVaultService vaultService,/* IMongoDBRepository mongoDBRepository,*/ IUserRepository userRepository, HttpClient httpClient)
+        public AuthManagerController(ILogger<AuthManagerController> logger, IConfiguration config, IVaultService vaultService, IUserRepository userRepository, HttpClient httpClient)
         {
             _config = config;
             _logger = logger;
             _vaultService = vaultService;
-            //  _mongoDBRepository = mongoDBRepository;
             _UserService = userRepository;
             _httpClient = httpClient;
         }
@@ -49,7 +46,7 @@ namespace Controllers
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            // Tilføjer rolle baseret på isAdmin-værdien fra parameteren
+            // Tilføjer rolle baseret på isAdmin-værdien fra parameteren, virker ik endnu
             Claim roleClaim;
             if (isAdmin == true)
             {
@@ -123,11 +120,12 @@ namespace Controllers
             return Unauthorized();
         }
 
-        // OBS: TIlføj en Authorize attribute til metoderne nedenunder Kig ovenfor i jwt token creation. 
-        [HttpGet("authorized")]
+        // OBS: TIlføj en Authorize attribute til metoderne nedenunder Kig ovenfor i jwt token creation.
         [Authorize(Roles = "Admin")]
+        [HttpGet("authorized")]
         public IActionResult Authorized()
         {
+
             // Hvis brugeren har en gyldig JWT-token og rollen "Admin", vil denne metode blive udført
             return Ok("You are authorized to access this resource.");
         }

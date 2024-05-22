@@ -49,7 +49,7 @@ builder.Services
     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(mySecret))
     };
 });
-// Tilføjer authorization politikker som bliver brugt i controlleren
+// Tilføjer authorization politikker som bliver brugt i controlleren, virker ik
 builder.Services.AddAuthorization(options =>
     {
         options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
