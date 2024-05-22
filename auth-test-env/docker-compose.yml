@@ -22,10 +22,23 @@ services:
       retries: 5
     command: 'server -dev -dev-root-token-id="00000000-0000-0000-0000-000000000000"'
 
+  vault-init:
+    image: hashicorp/vault:latest
+    command: sh "/app/vault_init.sh"
+    depends_on:
+      - vaulthost
+    healthcheck:
+      retries: 5
+    volumes:
+      - ./vault-init/vault_init.sh:/app/vault_init.sh
+    networks:
+      - my_network
+
   authservice:
     hostname: authservice
     depends_on:
       - userservice
+      - vault-init
     image: asbjorndev/auctions_authservice-image:1.0.0
     ports:
       - "5050:8080"

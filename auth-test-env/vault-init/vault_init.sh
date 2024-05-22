@@ -1,0 +1,14 @@
+export VAULT_ADDR='http://vaulthost:8200'
+export VAULT_TOKEN='00000000-0000-0000-0000-000000000000'
+
+# give some time for Vault to start and be ready
+sleep 10
+
+vault kv put -mount secret hemmeligheder Secret=7Y6v8P0QrcdPlrV9UfY6+bMTjx5u8zPC Issuer=MinAuthService
+
+# Loop forever to prevent container from terminating
+
+while :
+do
+	sleep 3600
+done

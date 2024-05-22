@@ -32,16 +32,11 @@ builder.Host.UseNLog();
 // BsonSeralizer... fortæller at hver gang den ser en Guid i alle entiteter skal den serializeres til en string. 
 BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
 
-// OBS: lig dem her op i vault, se opgave
-// string mySecret = Environment.GetEnvironmentVariable("Secret") ?? "none";
-// string myIssuer = Environment.GetEnvironmentVariable("Issuer") ?? "none";
-// Console.WriteLine($"Secret: {mySecret} and Issuer: {myIssuer}");
-
-// Fetch secrets from Vault.
+// Fetch secrets from Vault. Jeg initierer vaultService og bruger metoden derinde GetSecretAsync
 var vaultService = new VaultService(logger, builder.Configuration);
 var mySecret = await vaultService.GetSecretAsync("Secret");
 var myIssuer = await vaultService.GetSecretAsync("Issuer");
-Console.WriteLine($"Secret: {mySecret} and Issuer: {myIssuer}");
+// logger.Info($"Secret: {mySecret} and Issuer: {myIssuer}");
 if (mySecret == null || myIssuer == null)
 {
     Console.WriteLine("Failed to retrieve secrets from Vault");
@@ -72,10 +67,10 @@ builder.Services.AddAuthorization(options =>
     });
 // Add services to the container.
 
-//tilføjer Repository til services
+//tilføjer Repository til services.
 builder.Services.AddSingleton<IVaultService>(vaultService);
 
-// Konfigurer HttpClient for UserService. Hardcoded URL men det er vel ik en secret?
+// Konfigurer HttpClient for UserService udfra environment variablen UserServiceUrl
 var userServiceUrl = Environment.GetEnvironmentVariable("UserServiceUrl");
 if (string.IsNullOrEmpty(userServiceUrl))
 {
