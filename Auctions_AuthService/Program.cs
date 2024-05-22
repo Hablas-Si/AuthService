@@ -16,8 +16,7 @@ using NLog.Web;
 using NLog;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using Controllers;
-
+using Microsoft.Extensions.DependencyInjection;
 
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings()
@@ -39,8 +38,7 @@ BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
 // Console.WriteLine($"Secret: {mySecret} and Issuer: {myIssuer}");
 
 // Fetch secrets from Vault.
-using var scope = builder.Services.BuildServiceProvider().CreateScope();
-var vaultService = scope.ServiceProvider.GetRequiredService<IVaultService>();
+var vaultService = new VaultService(logger, builder.Configuration);
 var mySecret = await vaultService.GetSecretAsync("Secret");
 var myIssuer = await vaultService.GetSecretAsync("Issuer");
 Console.WriteLine($"Secret: {mySecret} and Issuer: {myIssuer}");
@@ -74,15 +72,8 @@ builder.Services.AddAuthorization(options =>
     });
 // Add services to the container.
 
-// miljøvariabler ign terminal
-builder.Services.Configure<VaultSettings>(options =>
-{
-    options.Address = Environment.GetEnvironmentVariable("Address");
-    options.Token = Environment.GetEnvironmentVariable("Token");
-});
-
 //tilføjer Repository til services
-builder.Services.AddTransient<IVaultService, VaultService>();
+builder.Services.AddSingleton<IVaultService>(vaultService);
 
 // Konfigurer HttpClient for UserService. Hardcoded URL men det er vel ik en secret?
 var userServiceUrl = Environment.GetEnvironmentVariable("UserServiceUrl");

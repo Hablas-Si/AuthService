@@ -12,16 +12,16 @@ namespace Repositories
     public class VaultService : IVaultService
     {
         private readonly IVaultClient _vaultClient;
-        private readonly ILogger<VaultService> _logger;
+        private readonly NLog.ILogger _logger;
 
 
-        public VaultService(ILogger<VaultService> logger)
+        public VaultService(NLog.ILogger logger, IConfiguration config)
         {
+            var EndPoint = config["Address"];
+            var token = config["Token"];
             _logger = logger;
-            var EndPoint = Environment.GetEnvironmentVariable("Address");
-            var token = Environment.GetEnvironmentVariable("Token");
 
-            _logger.LogInformation($"VaultService: {EndPoint} and {token}");
+            _logger.Info($"VaultService: {EndPoint} and {token}");
             var httpClientHandler = new HttpClientHandler();
             httpClientHandler.ServerCertificateCustomValidationCallback =
                 (message, cert, chain, sslPolicyErrors) => { return true; };
