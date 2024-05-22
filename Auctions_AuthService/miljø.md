@@ -9,3 +9,4 @@ export Address=https://localhost:8201/
 export Token=00000000-0000-0000-0000-000000000000
 
 # OBS HUSK AT INDSÆTTE export i UserService til mongodb connection
+export UserServiceUrl=forkert

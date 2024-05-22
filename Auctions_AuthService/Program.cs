@@ -35,6 +35,7 @@ BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
 // OBS: lig dem her op i vault, se opgave
 string mySecret = Environment.GetEnvironmentVariable("Secret") ?? "none";
 string myIssuer = Environment.GetEnvironmentVariable("Issuer") ?? "none";
+Console.WriteLine($"Secret: {mySecret} and Issuer: {myIssuer}");
 
 builder.Services
 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -93,7 +94,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 // Ændre swagger til at tage imod en bearer token, ligesom i Postman
 builder.Services.AddSwaggerGen();
-builder.Services.AddAuthentication().AddJwtBearer();
+
 
 var app = builder.Build();
 
