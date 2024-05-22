@@ -16,6 +16,7 @@ using NLog.Web;
 using NLog;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using Controllers;
 
 
 
@@ -33,9 +34,21 @@ builder.Host.UseNLog();
 BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
 
 // OBS: lig dem her op i vault, se opgave
-string mySecret = Environment.GetEnvironmentVariable("Secret") ?? "none";
-string myIssuer = Environment.GetEnvironmentVariable("Issuer") ?? "none";
+// string mySecret = Environment.GetEnvironmentVariable("Secret") ?? "none";
+// string myIssuer = Environment.GetEnvironmentVariable("Issuer") ?? "none";
+// Console.WriteLine($"Secret: {mySecret} and Issuer: {myIssuer}");
+
+// Fetch secrets from Vault.
+using var scope = builder.Services.BuildServiceProvider().CreateScope();
+var vaultService = scope.ServiceProvider.GetRequiredService<IVaultService>();
+var mySecret = await vaultService.GetSecretAsync("Secret");
+var myIssuer = await vaultService.GetSecretAsync("Issuer");
 Console.WriteLine($"Secret: {mySecret} and Issuer: {myIssuer}");
+if (mySecret == null || myIssuer == null)
+{
+    Console.WriteLine("Failed to retrieve secrets from Vault");
+    throw new ApplicationException("Failed to retrieve secrets from Vault");
+}
 
 builder.Services
 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -92,7 +105,7 @@ builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-// Ændre swagger til at tage imod en bearer token, ligesom i Postman
+
 builder.Services.AddSwaggerGen();
 
 
