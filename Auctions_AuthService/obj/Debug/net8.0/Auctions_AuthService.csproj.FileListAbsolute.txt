@@ -113,3 +113,13 @@ C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\obj\Debug
 C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\obj\Debug\net8.0\Auctions_AuthService.pdb
 C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\obj\Debug\net8.0\Auctions_AuthService.genruntimeconfig.cache
 C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\obj\Debug\net8.0\ref\Auctions_AuthService.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\NLog.config
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\NLog.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\NLog.Extensions.Logging.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\NLog.Loki.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\NLog.Web.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\NLog.Web.AspNetCore.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\Scrutor.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\Swashbuckle.AspNetCore.Filters.dll
+C:\Users\Asbjørn\Desktop\Auctions_AuthServiceApp\Auctions_AuthService\bin\Debug\net8.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll

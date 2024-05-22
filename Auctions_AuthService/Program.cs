@@ -14,6 +14,9 @@ using VaultSharp.V1.Commons;
 using Microsoft.Extensions.Options;
 using NLog.Web;
 using NLog;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
+
 
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings()
@@ -84,12 +87,23 @@ builder.Services.AddHttpClient<IUserRepository, UserRespository>(client =>
 });
 
 
-
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Ændre swagger til at tage imod en bearer token, ligesom i Postman
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
+builder.Services.AddAuthentication().AddJwtBearer();
 
 var app = builder.Build();
 
@@ -103,6 +117,7 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();
