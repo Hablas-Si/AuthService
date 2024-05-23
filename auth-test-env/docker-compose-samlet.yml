@@ -40,11 +40,11 @@ services:
       - vault-init
     image: asbjorndev/auctions_authservice-image:1.0.0
     ports:
-      - "3005:3005"
+      - "3005:8080"
     environment:
       - Address=https://vaulthost:8201/
       - Token=00000000-0000-0000-0000-000000000000
-      - UserServiceUrl=http://userservice:3010
+      - UserServiceUrl=http://userservice:8080
     networks:
       - my_network
     logging:
@@ -57,7 +57,7 @@ services:
     image: asbjorndev/auction_userservice-image:latest
     hostname: userservice
     ports:
-      - "3010:3010"
+      - "3010:8080"
     environment:
       - Address=https://vaulthost:8201/
       - Token=00000000-0000-0000-0000-000000000000
@@ -72,7 +72,7 @@ services:
   catalogservice:
     image: chilinhm/catalogservice-image:1.0.0
     ports:
-      - "3015:3015"
+      - "3015:8080"
     environment:
       - loki=http://loki:3100
       - Address=https://vaulthost:8201/
@@ -88,9 +88,9 @@ services:
   auctionservice:
     image: cptfaxe/auctionservice-image:1.0.0
     ports:
-      - "3020:3020"
+      - "3020:8080"
     environment:
-      - ConnectionURI=http://catalogservice:3015
+      - ConnectionURI=http://catalogservice:8080
       - Address=https://vaulthost:8201/
       - Token=00000000-0000-0000-0000-000000000000
     networks:
@@ -98,7 +98,7 @@ services:
     depends_on:
       - catalogservice
     healthcheck:
-      test: ["CMD", "nc", "-z", "catalogservice", "3015"]
+      test: ["CMD", "nc", "-z", "catalogservice", "8080"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -107,9 +107,9 @@ services:
   biddingservice:
     image: jakobmagni/biddingservice-image:1.0.0
     ports:
-      - "3025:3025"
+      - "3025:8080"
     environment:
-      - ConnectionURI=http://catalogservice:3015
+      - ConnectionURI=http://catalogservice:8080
       - Address=https://vaulthost:8201/
       - Token=00000000-0000-0000-0000-000000000000
     networks:
@@ -117,51 +117,25 @@ services:
     depends_on:
       - auctionservice
     healthcheck:
-      test: ["CMD", "nc", "-z", "catalogservice", "3015"]
+      test: ["CMD", "nc", "-z", "catalogservice", "8080"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
 
-  grafana:
-    environment:
-      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-    entrypoint:
-      - sh
-      - -euc
-      - |
-        mkdir -p /etc/grafana/provisioning/datasources
-        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
-        apiVersion: 1
-        datasources:
-        - name: Loki
-          type: loki
-          access: proxy
-          orgId: 1
-          url: http://loki:3100
-          basicAuth: false
-          isDefault: true
-          version: 1
-          editable: false
-        EOF
-        /run.sh
-    image: grafana/grafana:latest
-    container_name: grafana
-    ports:
-      - "3000:3000"
-    networks:
-      - my_network
-    depends_on:
-      - loki
-
   loki:
-    image: grafana/loki:latest
-    container_name: loki
-    command: -config.file=/etc/loki/local-config.yaml
+    image: grafana/loki
+    hostname: loki
     ports:
       - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - my_network
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
     networks:
       - my_network
 
@@ -179,7 +153,7 @@ services:
       - grafana
       - loki
     ports:
-      - "3001:3001"
+      - "4000:4000"
     networks:
       - my_network
 

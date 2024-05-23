@@ -130,7 +130,7 @@ namespace Controllers
         }
 
 
-        // En get der henter secrets ned fra vault
+        // En get der henter secrets ned fra vault SLET DENNE
         [AllowAnonymous]
         [HttpGet("getsecret/{path}")]
         public async Task<IActionResult> GetSecret(string path)
