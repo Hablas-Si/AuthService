@@ -64,7 +64,8 @@ services:
     ports:
       - "5051:8080"
     environment:
-      - ConnectionURI=mongodb+srv://admin:admin@auctionhouse.dfo2bcd.mongodb.net/
+      - Address=https://vaulthost:8201/
+      - Token=00000000-0000-0000-0000-000000000000
     networks:
       - my_network
     logging:
