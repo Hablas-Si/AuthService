@@ -46,6 +46,7 @@ services:
       #Tager Hostname fra vaults_dev
       - Address=https://vaulthost:8201/
       - Token=00000000-0000-0000-0000-000000000000
+      # Note: skal vi tage denne fra vault?
       - UserServiceUrl=http://userservice:8080
     networks:
       - my_network
