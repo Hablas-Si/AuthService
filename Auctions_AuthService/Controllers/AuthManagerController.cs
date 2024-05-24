@@ -130,30 +130,7 @@ namespace Controllers
         }
 
 
-        // En get der henter secrets ned fra vault SLET DENNE
-        [AllowAnonymous]
-        [HttpGet("getsecret/{path}")]
-        public async Task<IActionResult> GetSecret(string path)
-        {
-            try
-            {
-                _logger.LogInformation($"Getting secret with path {path}");
-                var secretValue = await _vaultService.GetSecretAsync(path);
-                if (secretValue != null)
-                {
-                    return Ok(secretValue);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error retrieving secret: {ex}");
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving secret.");
-            }
-        }
+
 
 
 
