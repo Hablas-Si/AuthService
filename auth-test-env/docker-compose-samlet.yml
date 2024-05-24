@@ -53,11 +53,10 @@ services:
         max-size: "10m"
         max-file: "3"
     # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
-    # restart: unless-stopped
-    # deploy:
-    #   restart_policy:
-    #     condition: any
-    #     delay: 5s
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 11s
 
   userservice:
     image: asbjorndev/auction_userservice-image:latest
@@ -75,11 +74,10 @@ services:
         max-size: "10m"
         max-file: "3"
     # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
-    # restart: unless-stopped
-    # deploy:
-    #   restart_policy:
-    #     condition: any
-    #     delay: 5s
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 11s
 
   catalogservice:
     image: chilinhm/catalogservice-image:1.0.0
@@ -97,11 +95,10 @@ services:
         max-size: "10m"
         max-file: "3"
     # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
-    # restart: unless-stopped
-    # deploy:
-    #   restart_policy:
-    #     condition: any
-    #     delay: 5s
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 11s
 
   auctionservice:
     image: cptfaxe/auctionservice-image:1.0.0
@@ -122,14 +119,13 @@ services:
       retries: 5
       start_period: 10s
     # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
-    # restart: unless-stopped
-    # deploy:
-    #   restart_policy:
-    #     condition: any
-    #     delay: 5s
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 11s
 
   biddingservice:
-    image: chilinhm/biddingservicetest-image:latest
+    image: jakobmagni/biddingservice-image:1.0.0
     ports:
       - "3025:8080"
     environment:
@@ -147,11 +143,10 @@ services:
       retries: 5
       start_period: 10s
     # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
-    # restart: unless-stopped
-    # deploy:
-    #   restart_policy:
-    #     condition: any
-    #     delay: 5s
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 11s
 
   loki:
     image: grafana/loki
@@ -187,11 +182,10 @@ services:
     networks:
       - my_network
     # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
-    # restart: unless-stopped
-    # deploy:
-    #   restart_policy:
-    #     condition: any
-    #     delay: 7s
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 13s
 
 networks:
   my_network:
