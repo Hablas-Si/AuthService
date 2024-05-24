@@ -52,6 +52,12 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
+    restart: unless-stopped
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 5s
 
   userservice:
     image: asbjorndev/auction_userservice-image:latest
@@ -68,6 +74,12 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
+    restart: unless-stopped
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 5s
 
   catalogservice:
     image: chilinhm/catalogservice-image:1.0.0
@@ -84,6 +96,12 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
+    restart: unless-stopped
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 5s
 
   auctionservice:
     image: cptfaxe/auctionservice-image:1.0.0
@@ -103,9 +121,15 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
+    # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
+    restart: unless-stopped
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 5s
 
   biddingservice:
-    image: jakobmagni/biddingservice-image:1.0.0
+    image: chilinhm/biddingservicetest-image:latest
     ports:
       - "3025:8080"
     environment:
@@ -122,6 +146,12 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
+    # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
+    restart: unless-stopped
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 5s
 
   loki:
     image: grafana/loki
@@ -156,6 +186,12 @@ services:
       - "4000:4000"
     networks:
       - my_network
+    # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
+    restart: unless-stopped
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 7s
 
 networks:
   my_network:
