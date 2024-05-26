@@ -129,7 +129,7 @@ services:
     ports:
       - "3025:8080"
     environment:
-      - ConnectionURI=http://catalogservice:8080
+      - auctionServiceUrl=http://auctionservice:8080
       - Address=https://vaulthost:8201/
       - Token=00000000-0000-0000-0000-000000000000
     networks:
