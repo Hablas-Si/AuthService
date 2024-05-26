@@ -70,20 +70,20 @@ builder.Services.AddAuthorization(options =>
 //tilføjer Repository til services.
 builder.Services.AddSingleton<IVaultService>(vaultService);
 
-// Konfigurer HttpClient for AuctionService udfra environment variablen UserServiceUrl
-var auctionServiceUrl = Environment.GetEnvironmentVariable("auctionServiceUrl");
-if (string.IsNullOrEmpty(auctionServiceUrl))
+// Konfigurer HttpClient for UserService udfra environment variablen UserServiceUrl
+var userServiceUrl = Environment.GetEnvironmentVariable("UserServiceUrl");
+if (string.IsNullOrEmpty(userServiceUrl))
 {
-    logger.Error("AuctionServiceUrl is missing");
-    throw new ApplicationException("AuctionServiceUrl is missing");
+    logger.Error("UserServiceUrl is missing");
+    throw new ApplicationException("UserServiceUrl is missing");
 }
 else
 {
-    logger.Info("UserServiceUrl is: " + auctionServiceUrl);
+    logger.Info("UserServiceUrl is: " + userServiceUrl);
 }
 builder.Services.AddHttpClient<IUserRepository, UserRespository>(client =>
 {
-    client.BaseAddress = new Uri(auctionServiceUrl);
+    client.BaseAddress = new Uri(userServiceUrl);
 });
 
 
