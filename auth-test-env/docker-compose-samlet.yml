@@ -102,6 +102,7 @@ services:
 
   auctionservice:
     image: cptfaxe/auctionservice-image:1.0.0
+    hostname: auctionservice
     ports:
       - "3020:8080"
     environment:
@@ -136,6 +137,33 @@ services:
       - my_network
     depends_on:
       - auctionservice
+    healthcheck:
+      test: ["CMD", "nc", "-z", "catalogservice", "8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 11s
+
+  legalservice:
+    image: asbjorndev/auctions_legalservice-image:latest
+    hostname: legalservice
+    ports:
+      - "3030:8080"
+    environment:
+      - AuctionServiceUrl=http://auctionservice:8080
+      - UserServiceUrl=http://userservice:8080
+      - Address=https://vaulthost:8201/
+      - Token=00000000-0000-0000-0000-000000000000
+    networks:
+      - my_network
+    depends_on:
+      - auctionservice
+      - userservice
     healthcheck:
       test: ["CMD", "nc", "-z", "catalogservice", "8080"]
       interval: 10s
@@ -192,7 +220,6 @@ services:
     hostname: rabbitmq
     ports:
       - "5672:5672" # RabbitMQ default port
-      - "15672:15672" # RabbitMQ management plugin port
     networks:
       - my_network
 
