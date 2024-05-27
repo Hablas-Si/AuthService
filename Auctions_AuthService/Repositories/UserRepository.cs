@@ -28,6 +28,7 @@ namespace Repositories
             userServiceResponse.EnsureSuccessStatusCode();
             return await userServiceResponse.Content.ReadAsAsync<bool>();
         }
+        // tester comment (slet mig)
     }
 
 }
