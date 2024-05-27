@@ -120,6 +120,31 @@ namespace Controllers
             return Unauthorized();
         }
 
+
+        // Til LegalService kaldet.
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginModel login)
+        {
+            var isValidUser = await _UserService.ValidateUserAsync(login);
+            if (isValidUser)
+            {
+                // Check om rollen er User før du genererer JWT
+                if (login.Role == "User")
+                {
+                    var token = GenerateJwtToken(login.Username, false);
+                    return Ok(new { token });
+                }
+                else
+                {
+                    return Unauthorized("User har ikke rigtig role.");
+                }
+            }
+            return Unauthorized();
+        }
+
+
+
         // OBS: TIlføj en Authorize attribute til metoderne nedenunder Kig ovenfor i jwt token creation.
         [HttpGet("authorized"), Authorize(Roles = "Admin")]
         public IActionResult Authorized()

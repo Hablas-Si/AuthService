@@ -217,11 +217,12 @@ services:
         condition: any
         delay: 13s
 
-  rabbitmq: # Correct indentation
+  rabbitmq:
     image: rabbitmq:3-management
     hostname: rabbitmq
     ports:
       - "5672:5672" # RabbitMQ default port
+      - "15672:15672" # RabbitMQ management interface
     networks:
       - my_network
 
