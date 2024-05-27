@@ -54,9 +54,9 @@ services:
         max-file: "3"
     # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
     deploy:
-      # restart_policy:
-      #   condition: any
-      #   delay: 11s
+      restart_policy:
+        condition: any
+        delay: 11s
 
   userservice:
     image: asbjorndev/auction_userservice-image:latest
@@ -75,9 +75,9 @@ services:
         max-file: "3"
     # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
     deploy:
-      # restart_policy:
-      #   condition: any
-      #   delay: 11s
+      restart_policy:
+        condition: any
+        delay: 11s
 
   catalogservice:
     image: chilinhm/catalogservice-image:1.0.0
@@ -96,9 +96,9 @@ services:
         max-file: "3"
     # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
     deploy:
-      # restart_policy:
-      #   condition: any
-      #   delay: 11s
+      restart_policy:
+        condition: any
+        delay: 11s
 
   auctionservice:
     image: cptfaxe/auctionservice-image:1.0.0
@@ -120,9 +120,9 @@ services:
       start_period: 10s
     # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
     deploy:
-      # restart_policy:
-      #   condition: any
-      #   delay: 11s
+      restart_policy:
+        condition: any
+        delay: 11s
 
   biddingservice:
     image: jakobmagni/biddingservice-image:1.0.0
@@ -144,9 +144,9 @@ services:
       start_period: 10s
     # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
     deploy:
-      # restart_policy:
-      #   condition: any
-      #   delay: 11s
+      restart_policy:
+        condition: any
+        delay: 11s
 
   loki:
     image: grafana/loki
@@ -183,16 +183,16 @@ services:
       - my_network
     # Får apiservices til at starte efter 5 sek hvis de fejler fordi vault ikke er klar
     deploy:
-      # restart_policy:
-      #   condition: any
-      #   delay: 13s
+      restart_policy:
+        condition: any
+        delay: 13s
 
-  rabbitmq:  # Correct indentation
+  rabbitmq: # Correct indentation
     image: rabbitmq:3-management
     hostname: rabbitmq
     ports:
-      - "5672:5672"  # RabbitMQ default port
-      - "15672:15672"  # RabbitMQ management plugin port
+      - "5672:5672" # RabbitMQ default port
+      - "15672:15672" # RabbitMQ management plugin port
     networks:
       - my_network
 
