@@ -81,6 +81,7 @@ services:
 
   catalogservice:
     image: chilinhm/catalogservice-image:1.0.0
+    hostname: catalogservice
     ports:
       - "3015:8080"
     environment:
@@ -164,6 +165,7 @@ services:
     depends_on:
       - auctionservice
       - userservice
+      - vault-init
     healthcheck:
       test: ["CMD", "nc", "-z", "catalogservice", "8080"]
       interval: 10s
