@@ -40,8 +40,8 @@ namespace Controllers
         private string GenerateJwtToken(string username, bool isAdmin)
         {
             // Henter secret og issuer fra vault
-            var secret = _vaultService.GetSecretAsync("Secret").Result;
-            var issuer = _vaultService.GetSecretAsync("Issuer").Result;
+               var secret = _vaultService.GetSecretAsync("Secret").Result ?? "7Y6v8P0QrcdPlrV9UfY6+bMTjx5u8zPC";
+            var issuer = _vaultService.GetSecretAsync("Issuer").Result ?? "MinAuthService";
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
