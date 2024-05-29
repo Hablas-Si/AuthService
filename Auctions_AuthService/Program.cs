@@ -34,8 +34,8 @@ BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
 
 // Fetch secrets from Vault. Jeg initierer vaultService og bruger metoden derinde GetSecretAsync
 var vaultService = new VaultService(logger, builder.Configuration);
-var mySecret = await vaultService.GetSecretAsync("Secret");
-var myIssuer = await vaultService.GetSecretAsync("Issuer");
+var mySecret = await vaultService.GetSecretAsync("Secret") ?? "7Y6v8P0QrcdPlrV9UfY6+bMTjx5u8zPC";
+var myIssuer = await vaultService.GetSecretAsync("Issuer") ?? "MinAuthService";
 // logger.Info($"Secret: {mySecret} and Issuer: {myIssuer}");
 if (mySecret == null || myIssuer == null)
 {
